@@ -1,0 +1,44 @@
+{
+  "name": "claude-webhook",
+  "version": "1.0.0",
+  "description": "Trigger Claude Code tasks from webhooks — connect Slack, GitHub, n8n, Zapier to Claude",
+  "type": "module",
+  "bin": {
+    "claude-webhook": "./bin/webhook.js"
+  },
+  "main": "./src/index.js",
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/webhook.js start",
+    "dev": "node --watch bin/webhook.js start"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "claude",
+    "anthropic",
+    "webhook",
+    "automation",
+    "slack",
+    "github",
+    "n8n",
+    "zapier",
+    "ai"
+  ],
+  "author": "NickCirv",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NickCirv/claude-webhook"
+  }
+}
