@@ -15,14 +15,15 @@
   ],
   "scripts": {
     "start": "node bin/webhook.js start",
-    "dev": "node --watch bin/webhook.js start"
+    "dev": "node --watch bin/webhook.js start",
+    "test": "node --test"
   },
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^12.1.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20"
   },
   "keywords": [
     "claude",
