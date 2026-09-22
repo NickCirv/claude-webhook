@@ -1,76 +1,74 @@
-<div align="center">
+![Nicholas Ashkar — claude-webhook](assets/nicholas-ashkar/banner.png)
 
 # claude-webhook
 
-**HTTP server that lets Slack, GitHub CI, n8n, and Zapier trigger Claude Code tasks via webhook**
+Exposes HTTP handlers that turn authenticated webhook requests into local Claude CLI tasks.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-0B0A09?style=flat-square&labelColor=0B0A09&color=555)](LICENSE)
-[![Node: >=18](https://img.shields.io/badge/Node-%3E%3D18-0B0A09?style=flat-square&labelColor=0B0A09&color=555)](package.json)
 
-</div>
 
-## Install
 
-```bash
-npx github:NickCirv/claude-webhook start
-```
 
-Or clone and run directly:
 
-```bash
-git clone https://github.com/NickCirv/claude-webhook
-cd claude-webhook
-node bin/webhook.js start --port 3847
-```
 
-## Usage
+<a id="usage"></a>
 
-```bash
-# Start the webhook server
-WEBHOOK_SECRET=mysecret npx github:NickCirv/claude-webhook start --port 3847
+<a id="trigger-a-claude-task-via-curl"></a>
 
-# Trigger a Claude task via curl
-curl -X POST http://localhost:3847/run \
-  -H "Authorization: Bearer mysecret" \
-  -H "Content-Type: application/json" \
-  -d '{"task": "list all TODO comments in the repo", "cwd": "/path/to/repo"}'
+<a id="check-server-status--recent-executions"></a>
 
-# Check server status + recent executions
-claude-webhook status --port 3847
-```
+<a id="cli-flags"></a>
 
-## CLI flags
+<a id="environment-variables"></a>
 
-| Flag | Description |
-|------|-------------|
-| `start -p, --port <n>` | Port to listen on (default: 3847, env: `PORT`) |
-| `start -s, --secret <s>` | Webhook secret (default: env `WEBHOOK_SECRET`) |
-| `start -q, --quiet` | Suppress request logs |
-| `status -p, --port <n>` | Port to check (default: 3847) |
-| `status -n, --limit <n>` | Executions to show (default: 10) |
+<a id="endpoints"></a>
 
 ## What it does
 
-`claude-webhook` runs a lightweight HTTP server that accepts task descriptions and executes them via `claude -p` (Claude Code CLI). It exposes three endpoints: `POST /run` (generic Bearer-authed task), `POST /webhook/github` (CI failure auto-fix via HMAC-SHA256), and `POST /webhook/slack` (Slack `/claude` slash command with replay protection). Tasks run async — `GET /status` returns live execution history.
+- Generic task endpoint.
+- GitHub and Slack signature handlers.
+- Execution history.
+- Status command.
 
-No Express. Uses Node's built-in `http` module with only `chalk` and `commander` as runtime deps.
 
-## Environment variables
 
-| Variable | Description |
-|----------|-------------|
-| `WEBHOOK_SECRET` | Shared secret for HMAC auth (required in production) |
-| `PORT` | Default port (overridden by `--port`) |
+<a id="install"></a>
 
-## Endpoints
+<a id="start-the-webhook-server"></a>
 
-| Endpoint | Auth | Description |
-|----------|------|-------------|
-| `POST /run` | Bearer token | Run any Claude task |
-| `POST /webhook/github` | HMAC-SHA256 (`X-Hub-Signature-256`) | Auto-fix on CI failure |
-| `POST /webhook/slack` | Slack HMAC + replay protection | Handle `/claude <task>` slash command |
-| `GET /status` | None | Server health + execution history |
+## Quickstart
 
----
+Prerequisites: Node.js `>=20` and npm. The checkout below pins the source used for this documentation.
 
-<sub>2 runtime deps (chalk, commander) · Node ≥18 · MIT · by <a href="https://github.com/NickCirv">NickCirv</a></sub>
+```sh
+git clone https://github.com/NickCirv/claude-webhook.git
+cd claude-webhook
+git checkout d8586b99705cbae9e72f2ca44834ae26aed2c0a6
+npm install
+node bin/webhook.js --help
+```
+
+**Expected behavior (illustrative, not captured):** Shows service commands before opening a listener or configuring WEBHOOK_SECRET.
+
+Examples are source-inspected, **not runtime-tested**. See the research record for verification gaps.
+
+## Boundaries and data
+
+Execution runs Claude with local filesystem access. Source permits an empty secret configuration; configure authentication and network isolation before use. This repository is not reviewed as a public internet service.
+
+## Development
+
+The manifest defines `npm test` as:
+
+```sh
+node --test
+```
+
+The captured suite is a smoke check, not end-to-end behavior coverage. Examples include “entry is valid JavaScript”. Tests were not run for this documentation revision.
+
+See [implementation and command reference](docs/REFERENCE.md) for the package scripts and inspected interfaces, and [research record](docs/RESEARCH.md) for the pinned source, document decisions and unresolved checks.
+
+## License and contact
+
+See [LICENSE](LICENSE) for the original terms and attribution. Legal text is unchanged.
+
+[Nicholas Ashkar](https://nicholashkar.com/) · [Discuss a project](https://nicholashkar.com/#oxblood-contact)
